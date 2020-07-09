@@ -65,11 +65,12 @@ func (d *genericworker) ConfigureRun(state *run.State) error {
 		}
 	}
 
-	// pass all of provider metadata in as workerTypeMetadata
-	state.WorkerConfig, err = state.WorkerConfig.Set("workerTypeMetadata", state.ProviderMetadata)
+	// merge provider metadata into workerTypeMetadata property
+	c, err := cfg.NewWorkerConfig().Set("workerTypeMetadata", state.ProviderMetadata)
 	if err != nil {
 		panic(err)
 	}
+	state.WorkerConfig = state.WorkerConfig.Merge(c)
 
 	// split to workerType and provisionerId
 	splitWorkerPoolID := strings.SplitAfterN(state.WorkerPoolID, "/", 2)

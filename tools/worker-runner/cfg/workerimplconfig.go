@@ -77,7 +77,7 @@ func (pc *WorkerImplementationConfig) Unpack(out interface{}) error {
 			if optional {
 				continue
 			}
-			return fmt.Errorf("Configuration value `worker.%s` not found", name)
+			return fmt.Errorf("Configuration value `worker.%s` not found in %#v", name, pc.data)
 		}
 
 		// check types and set the struct field
